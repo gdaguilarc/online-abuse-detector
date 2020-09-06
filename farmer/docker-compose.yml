@@ -1,0 +1,22 @@
+version: "3"
+services:
+  farmer:
+    container_name: farmer
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+  # Postgres container with credentials for connection
+  database:
+    container_name: raw_database
+    image: mysql
+    # Enviroment variables in .env file
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_DEVELOPMENT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DEVELOPMENT_NAME}
+    ports:
+      - "5506:3306"
